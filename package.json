@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "lorem-ipsum": "^2.0.8",
+    "lorem-ipsum-generator": "^1.0.4"
+  }
+}
