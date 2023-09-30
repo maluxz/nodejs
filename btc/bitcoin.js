@@ -8,7 +8,7 @@ const client = new bitcoin({
     port: 18332, // Puerto RPC del nodo Bitcoin Core (por defecto 18332 para testnet)
 });
 
-// Ejemplo de llamada RPC para obtener información del bloque más reciente
+// // Ejemplo de llamada RPC para obtener información del bloque más reciente
 // client.getBlockchainInfo().then((info) => {
 //     console.log(info);
 // }).catch((error) => {
@@ -40,23 +40,54 @@ async function generateNewReceivingAddress() {
 // Función para obtener direcciones y saldos
 async function getAddressesAndBalances() {
     try {
-      const addresses = await client.listReceivedByAddress(0, true); // Listar direcciones
-      console.log('Direcciones y saldos:');
-      addresses.forEach((addressInfo) => {
-        const address = addressInfo.address;
-        const balance = addressInfo.amount;
-        console.log(`Dirección: ${address}, Saldo: ${balance} BTC`);
-      });
+        const addresses = await client.listReceivedByAddress(0, true); // Listar direcciones
+        console.log('Direcciones y saldos:');
+        addresses.forEach((addressInfo) => {
+            const address = addressInfo.address;
+            const balance = addressInfo.amount;
+            console.log(`Dirección: ${address}, Saldo: ${balance} BTC`);
+        });
     } catch (error) {
-      console.error('Error al obtener las direcciones y saldos:', error);
+        console.error('Error al obtener las direcciones y saldos:', error);
+    }
+}
+
+// Función para obtener las últimas transacciones
+async function getRecentTransactions() {
+    try {
+        const transactions = await client.listTransactions('*', 10); // Obtener las últimas 10 transacciones
+        console.log('Últimas transacciones:');
+        transactions.forEach((transaction) => {
+            console.log(`ID de Transacción: ${transaction.txid}`);
+            console.log(`Confirmaciones: ${transaction.confirmations}`);
+            console.log(`Categoría: ${transaction.category}`);
+            console.log(`Cantidad: ${transaction.amount} BTC`);
+            console.log('----------------------------------------');
+        });
+    } catch (error) {
+        console.error('Error al obtener las últimas transacciones:', error);
+    }
+}
+
+// Ejemplo: Enviar una transacción
+async function sendTransaction(toAddress, amount) {
+    try {
+      const result = await client.sendToAddress(toAddress, amount);
+      console.log('Transacción enviada. ID de transacción:', result);
+    } catch (error) {
+      console.error('Error al enviar la transacción:', error);
     }
   }
-  
-  // Llama a la función para obtener direcciones y saldos
-  getAddressesAndBalances();
 
+// Llama a la función para obtener las últimas transacciones
+getRecentTransactions();
+
+// Llama a la función para obtener direcciones y saldos
+getAddressesAndBalances();
 
 // Llama a la función para generar una nueva dirección de recepción
 // generateNewReceivingAddress();
 
 // getBalance('*', 'tb1qshzjyrsj7l6w49khqwvc50uqzvydzl0e4wcxf7');
+
+// sendTransaction('tb1qhrsse8hq45tjtkysk8thlavcqrdmgq09ugpw7t', 0.0001);
