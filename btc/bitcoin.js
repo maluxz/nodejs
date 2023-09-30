@@ -6,6 +6,7 @@ const client = new bitcoin({
     password: 'Abc123', // Contraseña RPC
     host: 'localhost', // Host del nodo Bitcoin Core
     port: 18332, // Puerto RPC del nodo Bitcoin Core (por defecto 18332 para testnet)
+    wallet: 'morralla',
 });
 
 // // Ejemplo de llamada RPC para obtener información del bloque más reciente
@@ -90,4 +91,4 @@ getAddressesAndBalances();
 
 // getBalance('*', 'tb1qshzjyrsj7l6w49khqwvc50uqzvydzl0e4wcxf7');
 
-// sendTransaction('tb1qhrsse8hq45tjtkysk8thlavcqrdmgq09ugpw7t', 0.0001);
+// sendTransaction('tb1qarqnpeuq5e6j98wtsacam3fsed2d7wnxr3uey4', 0.0001);
